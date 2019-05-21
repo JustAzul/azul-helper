@@ -1,14 +1,15 @@
 {
   "name": "azul-helper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JustAzul/azul-helper.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "https://steamcommunity.com/profiles/76561198177999769",
+  "license": "MIT",
   "dependencies": {
     "graceful-fs": "^4.1.15",
     "moment": "^2.24.0",
