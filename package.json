@@ -1,6 +1,6 @@
 {
   "name": "azul-helper",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "index.js",
   "repository": {
@@ -13,6 +13,7 @@
   "dependencies": {
     "graceful-fs": "^4.1.15",
     "moment": "^2.24.0",
-    "numeral": "^2.0.6"
+    "numeral": "^2.0.6",
+    "steamid": "^1.1.1"
   }
 }
