@@ -41,7 +41,7 @@ async function isValidSteamID(value) {
 }
 
 async function isSteamID64(str) {
-    return SteamID64Regex.test(sid.getSteamID64());
+    return SteamID64Regex.test(str);
 }
 
 async function GetSteamID64FromURL(str) {
@@ -67,7 +67,7 @@ function formatNumber(number) {
 
 async function readJSON(filepath) {
     const filePath = `${process.cwd()}/${filepath}`;
-    if (!fs.existsSync(filePath)) return {};
+    if (!await fs.existsSync(filePath)) return {};
     const fileData = await fs.readFileSync(filePath);
     try {
         return await JSON.parse(fileData);
