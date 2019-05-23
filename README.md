@@ -27,7 +27,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Methods
 
 ### sleep(ms)
-Returns a promise that is solved after `ms` miliseconds, goot to use `await` or `then`
+Returns a promise that is solved after `ms` miliseconds, good to use `await` or `then`
 * `ms` time in miliseconds
 
 ### isURL(str)
