@@ -41,6 +41,8 @@ async function isValidSteamID(value) {
 }
 
 async function isSteamID64(str) {
+    const isValid = await isValidSteamID(str);
+    if(!isValid) return false;
     return SteamID64Regex.test(str);
 }
 

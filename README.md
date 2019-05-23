@@ -43,7 +43,7 @@ Checks if str is a valid SteamID, by returning true or false
 * `str` desired string to do the magic
 
 ### isSteamID64(str)
-Checks if str is a SteamID64, by returning true or false
+Checks if str is a valid SteamID64, by returning true or false
 * `str` desired string to do the magic
 
 ### GetSteamID64FromURL(str)
