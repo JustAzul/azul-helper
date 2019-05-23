@@ -1,6 +1,8 @@
 # Azul Helper
-
-Some functions that may help you somehow
+### Some functions that may help you somehow
+[![npm version](https://img.shields.io/npm/v/azul-helper.svg)](https://npmjs.com/package/azul-helper)
+[![npm downloads](https://img.shields.io/npm/dm/azul-helper.svg)](https://npmjs.com/package/azul-helper)
+[![license](https://img.shields.io/npm/l/azul-helper.svg)](https://github.com/JustAzul/azul-helper/blob/master/LICENSE)
 
 ### Prerequisites
 
