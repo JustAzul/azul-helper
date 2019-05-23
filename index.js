@@ -1,7 +1,6 @@
 const moment = require('moment');
 const numeral = require('numeral');
 const fs = require('graceful-fs');
-const SteamID = require('steamid');
 
 const SteamID64Regex = /[0-9]{17}/;
 const TradeOfferURLRegex = /https?:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=[0-9]*&token=[a-zA-Z0-9_-]*/;
@@ -32,12 +31,7 @@ async function isTradeOfferURL(str) {
 }
 
 async function isSteamID64(str) {    
-    try {
-        const sid = new SteamID(str);
-        return SteamID64Regex.test(sid.getSteamID64());
-    } catch(e){
-        return false;
-    }
+    return SteamID64Regex.test(sid.getSteamID64());
 }
 
 async function GetSteamID64FromURL(str) {
