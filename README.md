@@ -61,3 +61,8 @@ Format a number to make it more readable (e.g transforms 9999 to 9,999)
 ### readJSON(filepath)
 Safe load a JSON file and parse it, if file doesn't exists, or if it fails to parse the json(bad json), it will return an emptry json.
 * `filepath` obvious, the filepath..
+
+### SplitArray(Array, MaxSize)
+Split a big array, into another array of arrays
+* `Array` Array to be splited
+* `MaxSize` Max size of each array to be splited
