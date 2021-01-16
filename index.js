@@ -1,6 +1,6 @@
 const moment = require('moment');
 const numeral = require('numeral');
-const fs = require('graceful-fs');
+const {readFileSync, existsSync} = require('graceful-fs');
 const SteamID = require('steamid');
 
 const SteamID64Regex = /[0-9]{17}/;
@@ -83,8 +83,8 @@ function formatNumber(number = 1000) {
 
 async function readJSON(Filename = "") {
     const FilePath = `${process.cwd()}/${Filename}`;
-    if (!await fs.existsSync(FilePath)) return {};
-    const fileData = await fs.readFileSync(FilePath);
+    if (!await existsSync(FilePath)) return {};
+    const fileData = await readFileSync(FilePath);
     try {
         return await JSON.parse(fileData);
     } catch (e) {
