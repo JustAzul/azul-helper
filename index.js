@@ -1,6 +1,7 @@
 const moment = require('moment');
 const numeral = require('numeral');
 const SteamID = require('steamid');
+const mkdirp = require('mkdirp');
 
 const Regex = {
     SteamID64: /[0-9]{17}/,
@@ -8,13 +9,40 @@ const Regex = {
     Url: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 }
 
-async function readJSON(Filename = "") {    
+function createPath(Path) {
+    return new Promise(resolve => {
+        mkdirp(Path, err => {
+            if (!err) return resolve();
+            //if (err.code == "EEXIST") return resolve();
+
+            //Log.Debug(`Failed to create path '${Path}', trying again in a sec => ${err}`);
+
+            return setTimeout(() => {
+                resolve(createPath(...arguments));
+            }, moment.duration(2, 'seconds'))
+        })
+    })
+}
+
+async function readJSON(Filename = "") {
     try {
-        const WorkerFunction = require('./components/WorkerReadJson');
+        const WorkerFunction = require('./components/WorkerFunctions/ReadJson');
         const Result = await WorkerFunction(...arguments);
         return Result;
     } catch {
         const Func = require('./components/ReadJson');
+        const Result = await Func(...arguments);
+        return Result;
+    }
+}
+
+async function storeFile(filePath, content, flag = 'a') {
+    try {
+        const WorkerFunction = require('./components/WorkerFunctions/storeFile');
+        const Result = await WorkerFunction(...arguments);
+        return Result;
+    } catch {
+        const Func = require('./components/storeFile');
         const Result = await Func(...arguments);
         return Result;
     }
@@ -92,5 +120,7 @@ module.exports = {
     formatNumber,
     readJSON,
     sleep,
-    SplitArray
+    SplitArray,
+    createPath,
+    storeFile
 }

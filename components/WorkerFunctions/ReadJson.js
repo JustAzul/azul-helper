@@ -1,5 +1,5 @@
 const { Worker, isMainThread, workerData, parentPort } = require("worker_threads");
-const Read = require('./ReadJson');
+const Read = require('../ReadJson');
 
 if(isMainThread) {
     module.exports = function(Filename = "") {
