@@ -1,2 +1,5 @@
-const _ = require('./dist');
-module.exports = _.default;
+const dist = require('./dist');
+const source = require('./source');
+
+module.exports = dist.default;
+module.exports.source = source.default;
