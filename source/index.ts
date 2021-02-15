@@ -5,7 +5,7 @@ import createPath from 'mkdirp';
 
 import { Worker } from 'worker_threads';
 
-const Regex = {
+const Regx = {
     SteamID64: /[0-9]{17}/,
     TradeOfferUrl: /https?:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=[0-9]*&token=[a-zA-Z0-9_-]*/,
     Url: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
@@ -87,11 +87,11 @@ function sleep(ms: number) {
 }
 
 async function isURL(str: string) {
-    return Regex.Url.test(str);
+    return Regx.Url.test(str);
 }
 
 async function isTradeOfferURL(str: string) {
-    return Regex.TradeOfferUrl.test(str);
+    return Regx.TradeOfferUrl.test(str);
 }
 
 async function isValidSteamID(value: any) {
@@ -105,11 +105,11 @@ async function isValidSteamID(value: any) {
 async function isSteamID64(str: string) {
     const isValid = await isValidSteamID(str);
     if (!isValid) return false;
-    return Regex.SteamID64.test(str);
+    return Regx.SteamID64.test(str);
 }
 
 async function GetSteamID64FromURL(str: string) {
-    const m = str.match(Regex.SteamID64);
+    const m = str.match(Regx.SteamID64);
     if (m) return m[0];
     return m;
 }
@@ -141,5 +141,7 @@ export default {
     sleep,
     SplitArray,
     createPath,
-    storeFile
+    storeFile,
+    WriteFile: storeFile,
+    Regex: Regx
 }
