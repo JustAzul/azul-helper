@@ -28,7 +28,7 @@ declare namespace AzulHelper {
     export function storeFile(filePath: PathLike, content: string | NodeJS.ArrayBufferView, flag?: string)
     export function WriteFile(filePath: PathLike, content: string | NodeJS.ArrayBufferView, flag?: string)
     
-    export var Regx: Regs
+    export const Regx: Regs
 }
 
 export = AzulHelper;
