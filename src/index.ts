@@ -2,10 +2,10 @@ import moment from 'moment';
 import numeral from 'numeral';
 import SteamID from 'steamid';
 import createPath from 'mkdirp';
-import {writeFile, WriteFileOptions} from 'graceful-fs';
+import {PathLike, writeFile, WriteFileOptions} from 'graceful-fs';
 import {normalize, dirname} from 'path';
 
-import { Worker } from 'worker_threads';
+import readJSON from './ReadJson';
 
 const Regx = {
     SteamID64: /[0-9]{17}/,
@@ -13,32 +13,7 @@ const Regx = {
     Url: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 }
 
-function readJSON(Filepath: string): Promise<JSON> {
-    return new Promise((resolve, reject) => {
-        
-        const o = {
-            workerData: {
-                path: './WorkerFunctions/ReadJson'
-            }
-        };
-        
-        const worker = new Worker(`${__dirname}/components/ImportWorker.js`, o);
-        
-        worker.once('error', e => {
-            worker.terminate();
-            reject(e);
-        });
-        
-        worker.once('message', data => {
-            worker.terminate();
-            resolve(data);
-        });
-
-        worker.postMessage(Filepath);
-    });
-}
-
-async function storeFile(filePath: string, content: string | NodeJS.ArrayBufferView, flag: string = 'a'): Promise<void | Error> {
+async function storeFile(filePath: PathLike, content: string | NodeJS.ArrayBufferView, flag: string = 'a'): Promise<void> {
     const Path = normalize(`${process.cwd()}/${filePath}`);
 
     const o: WriteFileOptions = {
@@ -51,7 +26,7 @@ async function storeFile(filePath: string, content: string | NodeJS.ArrayBufferV
             if (!err) return resolve();
 
             if (err.code === "ENOENT") {
-                const Dirname = await dirname(filePath);
+                const Dirname = await dirname(filePath.toString());
                 await createPath(Dirname);
                 return resolve(storeFile(filePath, content, flag));
             }
@@ -64,9 +39,9 @@ async function storeFile(filePath: string, content: string | NodeJS.ArrayBufferV
     })
 }
 
-function SplitArray(Array: [], MaxSize: number) {
+function SplitArray(Array: [], MaxSize: number): Promise<any[][]> {
     return new Promise(resolve => {
-        let SplitedArray = [];
+        let SplitedArray: any[][] = [];
 
         do {
             const Split = Array.splice(0, Math.min(Array.length, MaxSize));
@@ -77,7 +52,7 @@ function SplitArray(Array: [], MaxSize: number) {
     });
 }
 
-function sleep(ms: number) {
+function sleep(ms: number): Promise<void> {
     return new Promise(resolve => {
         setTimeout(resolve, ms);
     })
