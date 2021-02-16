@@ -1,6 +1,6 @@
 {
   "name": "azul-helper",
-  "version": "1.4.6",
+  "version": "1.5.0",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -36,6 +36,6 @@
     "tslint": "^6.1.3"
   },
   "scripts": {
-    "postinstall": "tsc"
+    "pub": "tsc && npm publish"
   }
 }
