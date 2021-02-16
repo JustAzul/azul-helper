@@ -2,6 +2,8 @@ import moment from 'moment';
 import numeral from 'numeral';
 import SteamID from 'steamid';
 import createPath from 'mkdirp';
+import {writeFile, WriteFileOptions} from 'graceful-fs';
+import {normalize, dirname} from 'path';
 
 import { Worker } from 'worker_threads';
 
@@ -22,49 +24,44 @@ function readJSON(Filepath: string): Promise<JSON> {
         
         const worker = new Worker(`${__dirname}/components/ImportWorker.js`, o);
         
-        worker.postMessage(Filepath);
-        worker.once('error', reject);
+        worker.once('error', e => {
+            worker.terminate();
+            reject(e);
+        });
         
         worker.once('message', data => {
-            worker.unref();
+            worker.terminate();
             resolve(data);
         });
+
+        worker.postMessage(Filepath);
     });
 }
 
 async function storeFile(filePath: string, content: string | NodeJS.ArrayBufferView, flag: string = 'a'): Promise<void | Error> {
-    return new Promise((resolve, reject) => {
-        
-        const o = {
-            workerData: {
-                path: './WorkerFunctions/WriteFile'
+    const Path = normalize(`${process.cwd()}/${filePath}`);
+
+    const o: WriteFileOptions = {
+        flag
+    };
+
+    return new Promise(resolve => {
+
+        writeFile(Path, content, o, async err => {
+            if (!err) return resolve();
+
+            if (err.code === "ENOENT") {
+                const Dirname = await dirname(filePath);
+                await createPath(Dirname);
+                return resolve(storeFile(filePath, content, flag));
             }
-        };
-        
-        const worker = new Worker(`${__dirname}/components/ImportWorker.js`, o);
 
-        const data = {
-            filePath, content, flag
-        }
-        
-        worker.postMessage(data);
-        worker.once('error', reject);
-        
-        worker.once('message', data => {
-            worker.unref();
-            resolve(data);
+            setTimeout(() => {
+                resolve(storeFile(filePath, content, flag));
+            }, moment.duration(2, 'seconds').asMilliseconds())
+
         });
-    });
-
-    try {
-        const WorkerFunction = require(`${process.cwd()}/WorkerFunctions/storeFile`);
-        return WorkerFunction(filePath, content, flag);
-    } catch {
-        const Func = require('./components/storeFile');
-        return Func(filePath, content, flag);
-    }
-
-    throw new Error('Failed to import function!');
+    })
 }
 
 function SplitArray(Array: [], MaxSize: number) {
