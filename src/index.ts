@@ -101,7 +101,7 @@ function formatNumber(number: number = 1000) {
     return numeral(number).format('0,0');
 }
 
-export default {
+const Helper = {
     TimeStamp,
     isURL,
     isTradeOfferURL,
@@ -116,4 +116,7 @@ export default {
     storeFile,
     WriteFile: storeFile,
     Regex: Regx
-}
+};
+
+export default Helper;
+module.exports = Helper;
