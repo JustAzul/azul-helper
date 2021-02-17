@@ -1,8 +1,9 @@
 {
   "name": "azul-helper",
-  "version": "1.7.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "2.0.0",
+  "main": "index.js",
+  "types": "./index.d.ts",
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "https://github.com/JustAzul/azul-helper.git"
