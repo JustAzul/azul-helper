@@ -1,7 +1,8 @@
 import {isMainThread, Worker, parentPort, workerData} from 'worker_threads';
-import { existsSync, PathLike, readFileSync } from 'graceful-fs';
+import type {PathLike} from 'graceful-fs';
+import SyncReadJson from './SyncReadJson';
 
-/* export  */const Read = async (Filepath: PathLike): Promise<Object> => {
+const Read = async (Filepath: PathLike): Promise<Object> => {
 
     if(isMainThread) {
 
@@ -28,16 +29,7 @@ import { existsSync, PathLike, readFileSync } from 'graceful-fs';
 
     } else {
 
-        if (!existsSync(Filepath)) return {};
-
-        const fileData = readFileSync(Filepath, 'utf-8');
-    
-        try {
-            const ParsedData = JSON.parse(fileData);
-            return ParsedData;
-        } catch {
-            return {};
-        }
+        return SyncReadJson(Filepath);
     }
 };
 

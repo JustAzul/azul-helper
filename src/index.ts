@@ -6,6 +6,7 @@ import {PathLike, writeFile, WriteFileOptions} from 'graceful-fs';
 import {normalize, dirname} from 'path';
 
 import readJSON from './ReadJson';
+import readJSONSync from './SyncReadJson';
 
 const Regx = {
     SteamID64: /[0-9]{17}/,
@@ -110,6 +111,7 @@ const Helper = {
     GetSteamID64FromURL,
     formatNumber,
     readJSON,
+    readJSONSync,
     sleep,
     SplitArray,
     createPath,
