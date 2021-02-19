@@ -2,8 +2,8 @@ import moment from 'moment';
 import numeral from 'numeral';
 import SteamID from 'steamid';
 import createPath from 'mkdirp';
-import {PathLike, writeFile, WriteFileOptions} from 'graceful-fs';
-import {normalize, dirname} from 'path';
+import {PathLike, /* writeFile, WriteFileOptions, */ createWriteStream, existsSync} from 'graceful-fs';
+import {dirname} from 'path';
 
 import readJSON from './ReadJson';
 import readJSONSync from './SyncReadJson';
@@ -14,30 +14,21 @@ const Regx = {
     Url: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
 }
 
-async function storeFile(filePath: PathLike, content: string | NodeJS.ArrayBufferView, flag: string = 'a'): Promise<void> {
-    const Path = normalize(`${process.cwd()}/${filePath}`);
+async function storeFile(Path: PathLike, content: string | NodeJS.ArrayBufferView, flag: string = 'a'): Promise<void> {
 
-    const o: WriteFileOptions = {
-        flag
+    const o = {
+        flags: flag
     };
 
-    return new Promise(resolve => {
+    if(!existsSync(Path)) {
+        const Dirname = await dirname(Path.toString());
+        await createPath(Dirname);
+    }
 
-        writeFile(Path, content, o, async err => {
-            if (!err) return resolve();
-
-            if (err.code === "ENOENT") {
-                const Dirname = await dirname(filePath.toString());
-                await createPath(Dirname);
-                return resolve(storeFile(filePath, content, flag));
-            }
-
-            setTimeout(() => {
-                resolve(storeFile(filePath, content, flag));
-            }, moment.duration(2, 'seconds').asMilliseconds())
-
-        });
-    })
+    return new Promise(resolve => {        
+        const Stream = createWriteStream(Path.toString(), o);
+        Stream.end(content, resolve);
+    });
 }
 
 function SplitArray(Array: [], MaxSize: number): Promise<any[][]> {

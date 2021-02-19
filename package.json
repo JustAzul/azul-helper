@@ -1,8 +1,8 @@
 {
   "name": "azul-helper",
-  "version": "1.9.1",
+  "version": "1.9.2",
   "main": "index.js",
-  "types": "./index.d.ts",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/JustAzul/azul-helper.git"
@@ -39,6 +39,7 @@
   "scripts": {
     "prepare": "npm run build",
     "prebuild": "rimraf ./dist",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "npm run build && node ./test"
   }
 }
