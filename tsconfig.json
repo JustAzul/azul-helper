@@ -67,5 +67,5 @@
     /* "skipLibCheck": false, */                     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["dist", "node_modules", "./index.js", "test"]
+  "exclude": ["dist", "node_modules", "azul.js", "test"]
 }
