@@ -17,12 +17,12 @@ const Regx = {
 };
 
 function FastConcat(BaseArray: [], ToConcatArray: []) {
-  const BaseLenght = ToConcatArray.length;
+  const BaseLenght = BaseArray.length;
   // eslint-disable-next-line no-param-reassign
-  ToConcatArray.length += BaseArray.length;
-  for (let i = 0; i < BaseArray.length; i += 1) {
+  BaseArray.length += ToConcatArray.length;
+  for (let i = 0; i < ToConcatArray.length; i += 1) {
     // eslint-disable-next-line no-param-reassign
-    ToConcatArray[BaseLenght + i] = BaseArray[i];
+    BaseArray[BaseLenght + i] = ToConcatArray[i];
   }
 }
 
