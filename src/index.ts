@@ -12,7 +12,7 @@ import readJSONSync from './SyncReadJson';
 
 const Regx = {
   SteamID64: /[0-9]{17}/,
-  TradeOfferUrl: /https?:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=[0-9]*&token=[a-zA-Z0-9_-]*/,
+  TradeOfferUrl: [/(http|https)?:\/\/steamcommunity\.com\/tradeoffer\/new\/?\?partner=[0-9]*&token=[a-zA-Z0-9_-]*/, /(http|https)?:\/\/steamcommunity\.com\/tradeoffer\/new\/?\?token=[a-zA-Z0-9_-]*&partner=[0-9]*/],
   Url: /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/,
 };
 
@@ -67,7 +67,13 @@ async function isURL(str: string) {
 }
 
 async function isTradeOfferURL(str: string) {
-  return Regx.TradeOfferUrl.test(str);
+  for (let i = 0; i < Regx.TradeOfferUrl.length; i += 1) {
+    const Regex = Regx.TradeOfferUrl[i];
+    const Result = Regex.test(str);
+    if (Result) return true;
+  }
+
+  return false;
 }
 
 async function isValidSteamID(value: any) {
