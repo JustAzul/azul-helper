@@ -16,6 +16,27 @@ const Regx = {
   Url: /[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/,
 };
 
+function AsyncFastConcat(BaseArray: [], ToConcatArray: []): Promise<void> {
+  return new Promise((resolve) => {
+    const BaseLenght = BaseArray.length;
+    // eslint-disable-next-line no-param-reassign
+    BaseArray.length += ToConcatArray.length;
+
+    const Execute = (i = 0) => {
+      if (i === ToConcatArray.length) {
+        resolve();
+        return;
+      }
+
+      // eslint-disable-next-line no-param-reassign
+      BaseArray[BaseLenght + i] = ToConcatArray[i];
+      setImmediate(Execute.bind(null, i + 1));
+    };
+
+    Execute();
+  });
+}
+
 function FastConcat(BaseArray: [], ToConcatArray: []) {
   const BaseLenght = BaseArray.length;
   // eslint-disable-next-line no-param-reassign
@@ -128,6 +149,7 @@ const Helper = {
   WriteFile: storeFile,
   Regex: Regx,
   FastConcat,
+  AsyncFastConcat,
 };
 
 export default Helper;
