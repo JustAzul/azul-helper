@@ -10,11 +10,11 @@
   "keywords": [
     "azul",
     "justazul",
-    "justazul.xyz",
+    "justazul.com",
     "azul helper",
     "azul-helper"
   ],
-  "author": "https://justazul.xyz",
+  "author": "https://justazul.com",
   "license": "MIT",
   "dependencies": {
     "graceful-fs": "^4.2.6",
